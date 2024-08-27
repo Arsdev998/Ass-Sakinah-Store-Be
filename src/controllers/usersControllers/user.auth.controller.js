@@ -28,7 +28,7 @@ export const register = async (req, res) => {
           const token = generateToken(user);
           return res.status(200).cookie("token", token).json({
             message: "User registered successfully",
-            user,
+            isRegister: true,
           });
         }
       }
@@ -51,10 +51,10 @@ export const loginUser = async (req, res) => {
             return res.status(500).json({ error: err.message });
           } else {
             const token = generateToken(user);
-            res.status(200).cookie("token", token).json({
-              token,
-              message: "User logged in successfully",
-            });
+             return res.status(200).cookie("token", token).json({
+               message: "User registered successfully",
+               isLogin: true,
+             });
           }
         });
       }
