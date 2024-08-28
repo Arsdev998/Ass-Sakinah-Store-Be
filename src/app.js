@@ -1,17 +1,18 @@
+import dotenv from "dotenv";
 import express from "express";
 import session from "express-session";
 import passport from "passport";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js";
 import productRoute from './routes/productRoute.js'
 import cartRoute from './routes/cartRoute.js'
+import shippingRoute from './routes/shippingRoute.js'
 import USer from "./models/USer.js"; // Pastikan nama file dan import benar
 
-dotenv.config();
 
+dotenv.config();
 const app = express();
 
 app.use(cors());
@@ -41,8 +42,9 @@ passport.use(USer.createStrategy());
 passport.serializeUser(USer.serializeUser());
 passport.deserializeUser(USer.deserializeUser());
 
-app.use("/api/", userRoute);
-app.use("/api/", productRoute);
+app.use("/api", userRoute);
+app.use("/api", productRoute);
 app.use("/api/cart", cartRoute);
+app.use("/api/ongkir",shippingRoute)
 
 export default app;
