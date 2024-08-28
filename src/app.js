@@ -9,6 +9,7 @@ import userRoute from "./routes/userRoute.js";
 import productRoute from './routes/productRoute.js'
 import cartRoute from './routes/cartRoute.js'
 import shippingRoute from './routes/shippingRoute.js'
+import paymentRoute from './routes/paymentRoute.js'
 import USer from "./models/USer.js"; // Pastikan nama file dan import benar
 
 
@@ -45,6 +46,7 @@ passport.deserializeUser(USer.deserializeUser());
 app.use("/api", userRoute);
 app.use("/api", productRoute);
 app.use("/api/cart", cartRoute);
-app.use("/api/ongkir",shippingRoute)
+app.use("/api/ongkir",shippingRoute);
+app.use("/api/payment",paymentRoute)
 
 export default app;
