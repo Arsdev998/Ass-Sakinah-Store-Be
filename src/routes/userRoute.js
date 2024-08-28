@@ -1,9 +1,25 @@
 import express from "express";
-import { register,loginUser } from "../controllers/usersControllers/user.auth.controller.js";
+import {
+  register,
+  loginUser,
+} from "../controllers/usersControllers/user.auth.controller.js";
+import {
+    deleteUser,
+  getAllUser,
+  getUserProfile,
+  updateUser,
+} from "../controllers/usersControllers/user.action.controller.js";
+import { authentication } from "../middleware/middleware.js";
 const router = express.Router();
 
-// regist
-router.post("/register",register );
-router.post("/login",loginUser );
+// auth
+router.post("/auth/register", register);
+router.post("/auth/login", loginUser);
+// user action
+router.get("/user/profile", authentication(["admin", "user"]), getUserProfile);
+router.patch("/user/update", authentication(["admin", "user"]), updateUser);
+router.get("/users/get", authentication(["admin"]), getAllUser);
+router.delete("/user/delete/:id", authentication(["admin"]), deleteUser);
+
 
 export default router;

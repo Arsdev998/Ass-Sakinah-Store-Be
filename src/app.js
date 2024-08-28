@@ -7,6 +7,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import userRoute from "./routes/userRoute.js";
 import productRoute from './routes/productRoute.js'
+import cartRoute from './routes/cartRoute.js'
 import USer from "./models/USer.js"; // Pastikan nama file dan import benar
 
 dotenv.config();
@@ -40,7 +41,8 @@ passport.use(USer.createStrategy());
 passport.serializeUser(USer.serializeUser());
 passport.deserializeUser(USer.deserializeUser());
 
-app.use("/api/auth", userRoute);
+app.use("/api/", userRoute);
 app.use("/api/", productRoute);
+app.use("/api/cart", cartRoute);
 
 export default app;

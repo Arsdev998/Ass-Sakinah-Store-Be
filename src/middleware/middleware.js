@@ -10,7 +10,6 @@ export const authentication = (role = []) => {
     try {
       const decode = jwt.verify(token, process.env.JWT_SECRET_KEY);
       req.user = await USer.findById(decode._id);
-      console.log("userrr", req.user);
       if (!role.includes(req.user.role)) {
         return res.status(403).json({ message: "Admin Only, you  not have otoritation" });
       }
