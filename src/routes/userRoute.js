@@ -2,6 +2,7 @@ import express from "express";
 import {
   register,
   loginUser,
+  sendEmailControll,
 } from "../controllers/usersControllers/user.auth.controller.js";
 import {
     deleteUser,
@@ -15,6 +16,7 @@ const router = express.Router();
 // auth
 router.post("/auth/register", register);
 router.post("/auth/login", loginUser);
+router.post("/auth/send-email",sendEmailControll)
 // user action
 router.get("/user/profile", authentication(["admin", "user"]), getUserProfile);
 router.patch("/user/update", authentication(["admin", "user"]), updateUser);

@@ -1,6 +1,7 @@
 import USer from "../../models/USer.js";
 import jwt from "jsonwebtoken";
 import passport from "passport";
+import sendEmail from "../../utils/SendEmail.js";
 
 function generateToken(user) {
   return jwt.sign(
@@ -51,14 +52,38 @@ export const loginUser = async (req, res) => {
             return res.status(500).json({ error: err.message });
           } else {
             const token = generateToken(user);
-             return res.status(200).cookie("token", token).json({
-               message: "User registered successfully",
-               isLogin: true,
-             });
+            return res.status(200).cookie("token", token).json({
+              message: "User registered successfully",
+              isLogin: true,
+            });
           }
         });
       }
     })(req, res);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+export const sendEmailControll = async (req, res) => {
+  try {
+    const user = await USer.findOne({ username: req.body.email });
+    if (!user) {
+      return res.status(404).json({ message: "email belum terdaftar di Ass-Sakinah" });
+    }
+    const token = user.PasswordToken();
+    await user.save({ validateBeforeSave: true });
+
+    const url = `${process.env.DOMAIN}/reset-password/${token}`;
+    const message = `Klik link ini untuk mereset password anda : ${url} `;
+    await sendEmail({
+      email: user.username,
+      subject: "Reset Password",
+      message,
+    });
+    return res
+      .status(200)
+      .json({ message: `Link reset password telah dikirim ${user.username}` });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
