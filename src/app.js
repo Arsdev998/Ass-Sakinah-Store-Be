@@ -11,14 +11,21 @@ import cartRoute from "./routes/cartRoute.js";
 import shippingRoute from "./routes/shippingRoute.js";
 import paymentRoute from "./routes/paymentRoute.js";
 import orderRoute from "./routes/orderRoute.js";
-import googleAuthRoute from './routes/googleAuthRoute.js'
+import googleAuthRoute from "./routes/googleAuthRoute.js";
 import USer from "./models/USer.js"; // Pastikan nama file dan import benar
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
 
 dotenv.config();
 const app = express();
 
-app.use(cors());
+app.use(
+  cors({
+    origin: [process.env.DOMAIN_FE],
+    methods: ["GET", "POST", "PATCH", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+    credentials: true,
+  })
+);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -69,7 +76,7 @@ passport.use(
 );
 
 app.use("/api", userRoute);
-app.use("/auth",googleAuthRoute)
+app.use("/auth", googleAuthRoute);
 app.use("/api", productRoute);
 app.use("/api/cart", cartRoute);
 app.use("/api/ongkir", shippingRoute);
