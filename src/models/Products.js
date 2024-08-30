@@ -10,17 +10,17 @@ const productSchema = new Schema(
     profit: { type: Number, required: true },
     stock: { type: Number, required: true },
     weight: { type: Number, required: true },
-    rating: { type: Number, required: false },
-    images: [{ link: { type: String, required: false } }],
+    rating: { type: Number, default: 0 }, // Menambahkan default untuk rating
+    images: [{ link: { type: String } }], // Mempertahankan struktur jika ingin menggunakan objek
     reviews: [
       {
-        user: { type: Schema.Types.ObjectId },
-        rating: { type: Number, required: false, default: 0 },
-        comment: { type: String, required: false },
+        user: { type: Schema.Types.ObjectId, ref: "User" }, // Mengasumsikan model user bernama "User"
+        rating: { type: Number, default: 0 },
+        comment: { type: String },
       },
     ],
   },
   { timestamps: true }
 );
 
-export default model("product", productSchema);
+export default model("Product", productSchema);
