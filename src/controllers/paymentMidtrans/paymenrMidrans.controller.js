@@ -18,7 +18,7 @@ export const proccesTransaction = async (req, res) => {
         email: req.body.email,
       },
       callbacks: {
-        finish: `${process.env.DOMAIN}`,
+        finish: `${process.env.DOMAIN}/confirmation`,
       },
       enable_payment: [
         "mandiri_clicpay",
